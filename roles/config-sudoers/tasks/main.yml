@@ -1,9 +1,0 @@
----
-- name: Configure Sudoers
-  ansible.builtin.lineinfile:
-    path: /etc/sudoers
-    regexp: "^cloud"
-    line: "cloud ALL=(ALL) NOPASSWD: ALL"
-    owner: root
-    group: root
-    mode: ug+rwX,o=

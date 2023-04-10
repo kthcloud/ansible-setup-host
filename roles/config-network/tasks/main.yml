@@ -1,0 +1,38 @@
+---
+- name: "Copy netplan YAML"
+  ansible.builtin.copy:
+    src: "{{ config_files_path }}/bridge"
+    dest: "{{ netplan_dest }}"
+
+- name: Configure NIC
+  replace:
+    path: "{{ netplan_dest }}"
+    regexp: "PLACEHOLDER_NIC"
+    replace: "{{ nic }}"
+
+- name: Configure GATEWAY
+  replace:
+    path: "{{ netplan_dest }}"
+    regexp: "PLACEHOLDER_GATEWAY"
+    replace: "{{ gateway_ipv4 }}"
+
+- name: Configure LOCALIP
+  replace:
+    path: "{{ netplan_dest }}"
+    regexp: "PLACEHOLDER_LOCALIP"
+    replace: "{{ local_ip }}"
+
+- name: Remove auto-created netplan YAML
+  ansible.builtin.file:
+    path: "{{old_netplan_path}}"
+    state: absent
+
+- name: Generate netplan
+  become: true
+  ansible.builtin.command:
+    cmd: netplan generate
+
+- name: Apply netplan
+  become: true
+  ansible.builtin.command:
+    cmd: netplan apply

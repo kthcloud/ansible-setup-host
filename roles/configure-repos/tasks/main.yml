@@ -1,0 +1,11 @@
+- name: "Add cloudstack repo"
+  copy:
+    content: "{{ cloudstack_repo }}"
+    dest: /etc/apt/sources.list.d/cloudstack.list
+    force: true
+    mode: "0755"
+
+- name: Add an Apt signing key to a specific keyring file
+  ansible.builtin.apt_key:
+    url: http://download.cloudstack.org/release.asc
+    state: present

@@ -1,0 +1,12 @@
+---
+- hosts: 127.0.0.1
+  vars_files:
+    - config.yml
+  become: true
+  roles:
+    - configure-repos
+    - apt-update-upgrade
+    - apt-useful-packages
+    - pip-packages
+    - disable-apparmor
+    - config-libvirt

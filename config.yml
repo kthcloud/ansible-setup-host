@@ -1,0 +1,3 @@
+timezone: "Europe/Stockholm"
+cloudstack_repo: "deb http://download.cloudstack.org/ubuntu jammy 4.18\n"
+config_files_path: "{{ inventory_dir }}/config"

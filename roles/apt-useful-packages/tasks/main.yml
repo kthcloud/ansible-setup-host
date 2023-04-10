@@ -1,0 +1,19 @@
+---
+- name: Update all packages to their latest version
+  apt:
+    name:
+      [
+        "neofetch",
+        "tree",
+        "vim",
+        "net-tools",
+        "chrony",
+        "cloudstack-agent",
+        "qemu-kvm",
+        "libvirt-daemon-system",
+        "libvirt-clients",
+        "bridge-utils",
+        "lm-sensors",
+      ]
+    state: latest
+    update_cache: yes

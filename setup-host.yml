@@ -10,3 +10,4 @@
     - pip-packages
     - disable-apparmor
     - config-libvirt
+    - setup-gpu-passthrough

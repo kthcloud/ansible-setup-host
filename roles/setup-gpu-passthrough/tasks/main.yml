@@ -59,14 +59,11 @@
 - name: "Edit grub config file"
   include_tasks: 
     file: edit_grub.yml
-  # when: not configured
+  when: not configured
  
 - name: "Apply VFIO driver template"
   include_tasks: 
     file: apply_vfio_driver.yml
-  # when: not configured
+  when: not configured
 
-- name: "Reboot to apply changes"
-  reboot: 
-  # when: not configured
- 
+

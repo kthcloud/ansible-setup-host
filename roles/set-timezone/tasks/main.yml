@@ -4,7 +4,6 @@
     name: lcd-update
   vars:
     lcd_message: "Set timezone to {{ timezone }}"
-  when: configured
 
 - name: "Set timezone to {{ timezone }}"
   community.general.timezone:

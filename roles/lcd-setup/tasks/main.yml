@@ -1,0 +1,21 @@
+---
+- name: Install ipmitool
+  apt:
+    name: ipmitool
+    state: present
+    update_cache: yes
+
+- name: Copy lcd.py to /usr/bin/lcd
+  copy:
+    src: "{{ templates_path }}/lcd.py"
+    dest: /usr/bin/lcd
+    mode: 0755
+
+- name: "Create Unit file"
+  template: src={{ templates_path }}/lcd.service dest=/lib/systemd/system/lcd.service mode=644
+
+- name: "Reload systemctl"
+  command: systemctl daemon-reload
+  
+- name: "Restart service"
+  service: name=lcd.service state=restarted enabled=yes

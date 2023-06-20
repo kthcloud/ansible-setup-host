@@ -1,4 +1,10 @@
 ---
+- name: Update LCD message
+  ansible.builtin.import_role:
+    name: lcd-update
+  vars:
+    lcd_message: "Disable apparmor"
+
 - name: Disable apparmor (1)
   ansible.builtin.command:
     cmd: ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/

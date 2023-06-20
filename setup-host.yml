@@ -4,6 +4,8 @@
     - config.yml
   become: true
   roles:
+    - lcd-setup
+    - set-timezone
     - configure-repos
     - apt-update-upgrade
     - apt-useful-packages
@@ -11,3 +13,5 @@
     - disable-apparmor
     - config-libvirt
     - setup-gpu-passthrough
+    - configure-api
+    - lcd-reset

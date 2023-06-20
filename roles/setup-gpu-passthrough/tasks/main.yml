@@ -1,4 +1,10 @@
 ---
+- name: Update LCD message
+  ansible.builtin.import_role:
+    name: lcd-update
+  vars:
+    lcd_message: "Setting up GPU passthrough"
+
 - name: Install all pip dependencies
   pip:
     name: ["jc", "jmespath"]
@@ -49,6 +55,13 @@
 
 - name: "Check gpu device ids"
   set_fact: gpu_device_ids="{{ gpu_info.stdout | from_json | community.general.json_query('device_ids')  }}"
+
+- name: Update LCD message
+  ansible.builtin.import_role:
+    name: lcd-update
+  vars:
+    lcd_message: "GPU passthrough already installed, skipping"
+  when: configured
 
 
 - name: "Install dependencies"

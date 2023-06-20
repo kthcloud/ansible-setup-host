@@ -11,6 +11,12 @@
     dest: /usr/bin/lcd
     mode: 0755
 
+- name: Update LCD progress message
+  copy:
+    content: "{{ ansible_hostname }}"
+    dest: /etc/lcd
+  changed_when: False
+
 - name: "Create Unit file"
   template: src={{ templates_path }}/lcd.service dest=/lib/systemd/system/lcd.service mode=644
 
@@ -19,3 +25,4 @@
   
 - name: "Restart service"
   service: name=lcd.service state=restarted enabled=yes
+

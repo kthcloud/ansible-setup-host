@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+
 import json
 import os
 
 import cs
 
-config = json.load(open("/etc/kthcloud/setup-config.json"))
+f = open("/etc/kthcloud/setup-config.json", "r")
+config = json.load(f)
 
 endpoint = config['cloudstack']['endpoint']
 apiKey = config['cloudstack']['apiKey']
@@ -24,7 +27,7 @@ zone_id = None
 zones = cloudstack.listZones()
 for z in zones['zone']:
     if z['name'] == zone:
-        zone = z['id']
+        zone_id = z['id']
         break
 
 if zone_id is None:
@@ -37,8 +40,9 @@ pod_id = None
 pods = cloudstack.listPods()
 for p in pods['pod']:
     if p['name'] == pod:
-        pod = p['id']
+        pod_id = p['id']
         break
+
 if pod_id is None:
     available_pods = ', '.join([p['name'] for p in pods['pod']])
     raise Exception(
@@ -49,7 +53,7 @@ cluster_id = None
 clusters = cloudstack.listClusters()
 for c in clusters['cluster']:
     if c['name'] == cluster:
-        cluster = c['id']
+        cluster_id = c['id']
         break
 
 if cluster_id is None:
@@ -60,11 +64,12 @@ if cluster_id is None:
 
 # add host
 cloudstack.addHost(
-    zoneid=zone,
-    podid=pod,
-    clusterid=cluster,
+    zoneid=zone_id,
+    podid=pod_id,
+    clusterid=cluster_id,
     hypervisor='KVM',
-    url=hostIp,
+    url=f'http://{hostIp}',
+    clustertype='CloudManaged',    
     username=username,
     password=password,
 )

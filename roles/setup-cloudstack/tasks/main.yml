@@ -1,3 +1,10 @@
+---
+- name: Update LCD message
+  ansible.builtin.import_role:
+    name: lcd-update
+  vars:
+    lcd_message: "Connecting to CloudStack"
+
 - name: copy script from templates
   ansible.builtin.copy:
     src: "{{ templates_dir }}/connect-cloudstack.py"

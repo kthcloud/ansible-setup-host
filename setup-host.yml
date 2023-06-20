@@ -14,4 +14,5 @@
     - config-libvirt
     - setup-gpu-passthrough
     - configure-api
+    - setup-cloudstack
     - lcd-reset

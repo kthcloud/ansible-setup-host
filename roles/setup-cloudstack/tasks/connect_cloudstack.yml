@@ -1,0 +1,10 @@
+- name: copy script from templates
+  ansible.builtin.copy:
+    src: "{{ templates_dir }}/connect-cloudstack.py"
+    dest: /usr/bin/connect-cloudstack
+    owner: root
+    group: root
+    mode: 0755
+
+- name: run script
+  command: /usr/bin/connect-cloudstack

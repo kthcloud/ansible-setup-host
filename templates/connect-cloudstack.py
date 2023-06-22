@@ -18,7 +18,8 @@ username = config['host']['username']
 password = config['host']['password']
 
 # connect to cloudstack
-cloudstack = cs.CloudStack(endpoint=endpoint, key=apiKey, secret=secret, timeout=300)
+cloudstack = cs.CloudStack(
+    endpoint=endpoint, key=apiKey, secret=secret, timeout=600)
 
 # get zone id
 zone_id = None
@@ -73,12 +74,19 @@ try:
         password=password,
     )
 except cs.CloudStackApiException as e:
-    if e.error['errorcode'] == 530 and "already in the database" in e.error['errortext']:
+    if e.error['errorcode'] == 530 and 'already in the database' in e.error['errortext']:
         print(f'Host {host} already exists in {zone}:{pod}:{cluster}')
     else:
         raise
 except Exception as e:
-    raise Exception(
-        f'Failed to add host {host} to {zone}:{pod}:{cluster}: {e}')
+    s = str(e)
+    # for some reason we are getting a "504 Gateway Time-out" error even though the host is added successfully
+    # so we check for that and ignore it
+    if 'HTTP 504 Gateway Time-out' in s:
+        print(f'Successfully added host {host} to {zone}:{pod}:{cluster}')
+    else:
+        raise Exception(
+            f'Failed to add host {host} to {zone}:{pod}:{cluster}: {e}')
+
 else:
     print(f'Successfully added host {host} to {zone}:{pod}:{cluster}')

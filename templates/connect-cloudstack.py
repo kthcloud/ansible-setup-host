@@ -18,7 +18,7 @@ username = config['host']['username']
 password = config['host']['password']
 
 # connect to cloudstack
-cloudstack = cs.CloudStack(endpoint=endpoint, key=apiKey, secret=secret)
+cloudstack = cs.CloudStack(endpoint=endpoint, key=apiKey, secret=secret, timeout=300)
 
 # get zone id
 zone_id = None

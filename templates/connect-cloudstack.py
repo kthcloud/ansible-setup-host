@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 import json
-import os
-
 import cs
 
 f = open("/etc/kthcloud/setup-config.json", "r")
@@ -63,15 +61,24 @@ if cluster_id is None:
         f'Cluster {cluster} not found, available clusters are: {available_clusters}')
 
 # add host
-cloudstack.addHost(
-    zoneid=zone_id,
-    podid=pod_id,
-    clusterid=cluster_id,
-    hypervisor='KVM',
-    url=f'http://{hostIp}',
-    clustertype='CloudManaged',    
-    username=username,
-    password=password,
-)
-
-print(f'Successfully added host {host} to {zone}:{pod}:{cluster}')
+try:
+    cloudstack.addHost(
+        zoneid=zone_id,
+        podid=pod_id,
+        clusterid=cluster_id,
+        hypervisor='KVM',
+        url=f'http://{hostIp}',
+        clustertype='CloudManaged',
+        username=username,
+        password=password,
+    )
+except cs.CloudStackApiException as e:
+    if e.error['errorcode'] == 530 and "already in the database" in e.error['errortext']:
+        print(f'Host {host} already exists in {zone}:{pod}:{cluster}')
+    else:
+        raise
+except Exception as e:
+    raise Exception(
+        f'Failed to add host {host} to {zone}:{pod}:{cluster}: {e}')
+else:
+    print(f'Successfully added host {host} to {zone}:{pod}:{cluster}')

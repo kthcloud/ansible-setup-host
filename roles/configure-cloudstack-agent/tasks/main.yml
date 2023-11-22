@@ -1,0 +1,15 @@
+---
+- name: Update LCD message
+  ansible.builtin.import_role:
+    name: lcd-update
+  vars:
+    lcd_message: "Configuring CloudStack agent"
+
+- name: Ensure guest.cpu.mode is set to host-model in agent.properties
+  ansible.builtin.lineinfile:
+    path: /etc/cloudstack/agent/agent.properties
+    regexp: '^guest\.cpu\.mode='
+    line: 'guest.cpu.mode=host-model'
+    owner: root
+    group: root
+    mode: "0644"

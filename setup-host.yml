@@ -16,5 +16,4 @@
     - setup-gpu-passthrough
     - configure-api
     - setup-cloudstack
-    - reboot-if-required
     - lcd-reset

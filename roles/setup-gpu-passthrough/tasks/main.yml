@@ -26,7 +26,7 @@
         if "NVIDIA" in device["vendor"]:
             bus_ids.append(device["slot"])
             device_ids.add(device["vendor_id"] + ":" + device["device_id"])
-            if  "vfio-pci" not in device["driver"]:
+            if "driver" not in device or "vfio-pci" not in device["driver"]:
                 is_configured = False
 
     output = {}

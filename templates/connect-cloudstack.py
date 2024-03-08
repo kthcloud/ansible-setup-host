@@ -71,7 +71,7 @@ try:
         url=f'http://{hostIp}',
         clustertype='CloudManaged',
         username=username,
-        password=password,
+        password="",
     )
 except cs.CloudStackApiException as e:
     if e.error['errorcode'] == 530 and 'already in the database' in e.error['errortext']:
